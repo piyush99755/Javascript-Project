@@ -40,3 +40,16 @@ document.querySelector('.weather-group').addEventListener('click', function(even
     }
     
 });
+
+let localTime = new Date();
+document.querySelector('span[data-time = hours]').textContent = localTime.getHours();
+document.querySelector('span[data-time = minutes]').textContent = localTime.getMinutes();
+document.querySelector('span[data-time = seconds]').textContent = localTime.getSeconds();
+
+setInterval(function(){
+    let localTime = new Date();
+    document.querySelector('span[data-time = hours]').textContent = localTime.getHours();
+    document.querySelector('span[data-time = minutes]').textContent = localTime.getMinutes();
+    document.querySelector('span[data-time = seconds]').textContent = localTime.getSeconds();
+},
+1000);
