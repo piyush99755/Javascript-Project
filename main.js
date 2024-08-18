@@ -15,10 +15,19 @@ function celciusToFahr(temperature) {
     let fahr = (temperature * 9/5) + 32;
     return fahr;
 }
+let greetingText;
+let currentHour = new Date().getHours();
 
+if(currentHour < 12){
+    greetingText('Good Morning!');
+}else if(currentHour < 19){
+    greetingText('Good Afternoon!');
+}else if(currentHour < 24){
+    greetingText('Good Evening!');
+}else{
+    greetingText('Welcome!');
+}
 
-
-const greetingText = 'Good Afternoon!';
 const weatherCondition = 'Sunny';
 const userLocation = 'London';
 let temperature = 30;
@@ -46,10 +55,70 @@ document.querySelector('span[data-time = hours]').textContent = localTime.getHou
 document.querySelector('span[data-time = minutes]').textContent = localTime.getMinutes();
 document.querySelector('span[data-time = seconds]').textContent = localTime.getSeconds();
 
+//local time section
 setInterval(function(){
     let localTime = new Date();
-    document.querySelector('span[data-time = hours]').textContent = localTime.getHours();
-    document.querySelector('span[data-time = minutes]').textContent = localTime.getMinutes();
-    document.querySelector('span[data-time = seconds]').textContent = localTime.getSeconds();
+    document.querySelector('span[data-time = hours]').textContent = localTime.getHours().toString().padStart(2, '0');
+    document.querySelector('span[data-time = minutes]').textContent = localTime.getMinutes().toString().padStart(2, '0');
+    document.querySelector('span[data-time = seconds]').textContent = localTime.getSeconds().toString().padStart(2, '0');
 },
 1000);
+
+//gallery section
+//src="./assets/gallery/image1.jpg" alt="Thumbnail Image 1"
+const galleryImages = [
+    {
+        src:"./assets/gallery/image1.jpg",
+        alt:"Thumbnail Image 1"
+
+    },
+
+    {
+        src:"./assets/gallery/image2.jpg",
+        alt:"Thumbnail Image 2"
+
+    },
+
+    {
+        src:"./assets/gallery/image3.jpg",
+        alt:"Thumbnail Image 3"
+
+    }
+]
+
+let mainImage = document.querySelector('#gallery > img');
+let thumbnail = document.querySelector('#gallery .thumbnails');
+mainImage.src = galleryImages[0].src;
+mainImage.alt = galleryImages[0].alt;
+
+
+    
+//src="./assets/gallery/image1.jpg" 
+//alt="Thumbnail Image 1" 
+//data-array-index="0" data-selected="true"></img>
+
+
+galleryImages.forEach(function(image, index) {
+   let thumb = document.createElement('img');
+   thumb.src = image.src;
+   thumb.alt = image.src;
+   thumb.dataset.arrayIndex = index;
+   thumb.dataset.selected = index === 0 ? true : false;
+
+   thumb.addEventListener('click', function(e) {
+    let selectedIndex = e.target.dataset.arrayIndex;
+    console.log(selectedIndex);
+    let selectedImage = galleryImages[selectedIndex];
+    mainImage.src = selectedImage.src;
+    mainImage.alt = selectedImage.alt;
+
+    thumbnail.querySelectorAll('img').forEach(function(img){
+        img.dataset.selected = false;
+    });
+    e.target.dataset.selected = true;
+
+   })
+
+   
+   thumbnail.appendChild(thumb);
+})
