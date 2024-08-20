@@ -171,13 +171,11 @@ galleryImages.forEach(function(image, index) {
 
 }
 
-//products section
-function productsHandler() {
-    //creating HTML elements dynamically to get more control over functionality
+function showProducts(productsList){
     let productsSection = document.querySelector('.products-area');
-    
-    //looping through products and creating its elements along with its require properties 
-    products.forEach( function(product, index) {
+     productsSection.textContent = '';
+    //looping through products and creating its elements along with its require properties
+    productsList.forEach(function(product, index) {
         
         let productElm = document.createElement('div');
         productElm.classList.add('product-item'); 
@@ -223,6 +221,42 @@ function productsHandler() {
 
 }
 
+//products section
+function productsHandler() {
+    //creating HTML elements dynamically to get more control over functionality
+    
+
+    let freeProducts = products.filter( function(item) {
+        return !item.price || item.price <= 0;
+    })
+
+    let paidProducts = products.filter( function(item) {
+        return  item.price > 0;
+    })
+    
+     showProducts(products);
+    
+
+    //filter through products to find out about free and paid products
+    let totalProducts = products.length;
+    document.querySelector('.products-filter label[for=all] span.product-amount').textContent = totalProducts;
+    document.querySelector('.products-filter label[for=paid] span.product-amount').textContent = paidProducts.length;
+    document.querySelector('.products-filter label[for=free] span.product-amount').textContent = freeProducts.length;
+    
+    let productsFilter = document.querySelector('.products-filter');
+    productsFilter.addEventListener('click', function(event) {
+        if(event.target.id == 'all'){
+            showProducts(products);
+        }
+        else if(event.target.id == 'paid'){
+            showProducts(paidProducts);
+        }
+        else if(event.target.id == 'free'){
+            showProducts(freeProducts);
+        }
+    })
+}
+
 //execute functions on page load
 menuHandler();
 greetingHandler();
@@ -231,30 +265,4 @@ galleryHandler();
 productsHandler();
 
 
-/* <div class="product-item">
-             <img src="./assets/products/img6.png" alt="AstroFiction">
-             <div class="product-details">
-                <h3 class="product-title">AstroFiction</h3>
-                <p class="product-author">John Doe</p>
-                <p class="price-title">Price</p>
-                <p class="product-price">$ 49.90</p>
-             </div>
-          </div>
-          <div class="product-item">
-             <img src="./assets/products/img1.png" alt="Space Odissey">
-             <div class="product-details">
-                <h3 class="product-title">Space Odissey</h3>
-                <p class="product-author">Marie Anne</p>
-                <p class="price-title">Price</p>
-                <p class="product-price">$ 35.00</p>
-             </div>
-          </div>
-          <div class="product-item">
-             <img src="./assets/products/img2.png" alt="Doomed City">
-             <div class="product-details">
-                <h3 class="product-title">Doomed City</h3>
-                <p class="product-author">Jason Cobert</p>
-                <p class="price-title">Price</p>
-                <p class="product-price">Free</p>
-             </div>
-          </div> */
+
