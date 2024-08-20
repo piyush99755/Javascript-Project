@@ -20,6 +20,46 @@ const galleryImages = [
     }
 ]
 
+const products = [
+    {
+        title: "AstroFiction",
+        author: "John Doe",
+        price: 49.9,
+        image: "./assets/products/img6.png"
+    },
+    {
+        title: "Space Odissey",
+        author: "Marie Anne",
+        price: 35,
+        image: "./assets/products/img1.png"
+    },
+    {
+        title: "Doomed City",
+        author: "Jason Cobert",
+        price: 0,
+        image: "./assets/products/img2.png"
+    },
+    {
+        title: "Black Dog",
+        author: "John Doe",
+        price: 85.35,
+        image: "./assets/products/img3.png"
+    },
+    {
+        title: "My Little Robot",
+        author: "Pedro Paulo",
+        price: 0,
+        image: "./assets/products/img5.png"
+    },
+    {
+        title: "Garden Girl",
+        author: "Ankit Patel",
+        price: 45,
+        image: "./assets/products/img4.png"
+    }
+
+]
+
 function menuHandler() {
     //nav menu 
     document.querySelector('#open-nav-menu').addEventListener('click', function() {
@@ -131,10 +171,90 @@ galleryImages.forEach(function(image, index) {
 
 }
 
+//products section
+function productsHandler() {
+    //creating HTML elements dynamically to get more control over functionality
+    let productsSection = document.querySelector('.products-area');
+    
+    //looping through products and creating its elements along with its require properties 
+    products.forEach( function(product, index) {
+        
+        let productElm = document.createElement('div');
+        productElm.classList.add('product-item'); 
+
+       // create image element
+        let productImage = document.createElement('img');
+        productImage.src = product.image;
+        productImage.alt = ' Image for ' + product.title;
+        
+        //create product-details section
+        let productDetails = document.createElement('div');
+        productDetails.classList.add('product-details');
+
+        //create product title, author, price-title and price
+        let productTitle = document.createElement('h3');
+        productTitle.classList.add('product-title');
+        productTitle.textContent = product.title;
+
+        let productAuthor = document.createElement('p');
+        productAuthor.classList.add('product-author');
+        productAuthor.textContent = product.author;
+
+        let priceTitle = document.createElement('p');
+        priceTitle.classList.add('price-title');
+        priceTitle.textContent = 'Price';
+
+        let productPrice = document.createElement('p');
+        productPrice.classList.add('product-price');
+        productPrice.textContent = product.price ? '$' + product.price.toFixed(2) : 'Free';
+
+        
+        //append child elemets to its parent element
+        productDetails.append(productTitle);
+        productDetails.append(productAuthor);
+        productDetails.append(priceTitle);
+        productDetails.append(productPrice);
+
+        productElm.append(productImage);
+        productElm.append(productDetails);
+
+        productsSection.append(productElm);
+    });
+
+}
+
 //execute functions on page load
 menuHandler();
 greetingHandler();
 timeHandler();
 galleryHandler();
+productsHandler();
 
 
+/* <div class="product-item">
+             <img src="./assets/products/img6.png" alt="AstroFiction">
+             <div class="product-details">
+                <h3 class="product-title">AstroFiction</h3>
+                <p class="product-author">John Doe</p>
+                <p class="price-title">Price</p>
+                <p class="product-price">$ 49.90</p>
+             </div>
+          </div>
+          <div class="product-item">
+             <img src="./assets/products/img1.png" alt="Space Odissey">
+             <div class="product-details">
+                <h3 class="product-title">Space Odissey</h3>
+                <p class="product-author">Marie Anne</p>
+                <p class="price-title">Price</p>
+                <p class="product-price">$ 35.00</p>
+             </div>
+          </div>
+          <div class="product-item">
+             <img src="./assets/products/img2.png" alt="Doomed City">
+             <div class="product-details">
+                <h3 class="product-title">Doomed City</h3>
+                <p class="product-author">Jason Cobert</p>
+                <p class="price-title">Price</p>
+                <p class="product-price">Free</p>
+             </div>
+          </div> */
