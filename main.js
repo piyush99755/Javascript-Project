@@ -104,6 +104,7 @@ function greetingHandler() {
 
 // current weather and location handler
 function weatherHandler() {
+    let isCelsius = true;
 
     navigator.geolocation.getCurrentPosition(position => {
         let latitude = position.coords.latitude;
@@ -126,16 +127,24 @@ function weatherHandler() {
         
         document.querySelector('p#weather').innerHTML = celciusText;
     
-        document.querySelector('.weather-group').addEventListener('click', function(event) {
-    
-                if(event.target.id == 'celcius') {
-                    document.querySelector('p#weather').innerHTML = celciusText;
-            
-                } else if (event.target.id == 'fahr') {
-                    document.querySelector('p#weather').innerHTML = fahrText;
-                }
-        
+        document.querySelector('.weather-group').addEventListener('click', function (event) {
+
+            const button = event.target.closest('button');
+
+            if (!button) return;
+
+            if (button.id === 'celcius' && !isCelsius) {
+                document.querySelector('p#weather').innerHTML = celciusText;
+                isCelsius = true;
+            }
+
+            if (button.id === 'fahr' && isCelsius) {
+                document.querySelector('p#weather').innerHTML = fahrText;
+                isCelsius = false;
+            }
+
         });
+
     
     
         }).catch(error => {
