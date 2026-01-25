@@ -107,54 +107,49 @@ function weatherHandler() {
     let isCelsius = true;
 
     navigator.geolocation.getCurrentPosition(position => {
-        let latitude = position.coords.latitude;
-        let longitude = position.coords.longitude;
-        let url = weatherAPIURL
+        const latitude = position.coords.latitude;
+        const longitude = position.coords.longitude;
+
+        const url = weatherAPIURL
             .replace('{lat}', latitude)
             .replace('{lon}', longitude)
             .replace('{API key}', weatherAPIKey);
+
         fetch(url)
-        .then(response => response.json())
-        .then(data => {
-        const condition = data.weather[0].description;
-        const location = data.name;
-        const country = data.sys.country;
-        const temperature = data.main.temp;
-    
-        let celciusText = `The weather is ${condition} in ${location}, ${country} and it's ${temperature.toFixed(1)}°C outside`;
-        let fahrText = `The weather is ${condition} in ${location}, ${country} and it's ${celciusToFahr(temperature).toFixed(1)}°F outside.`
-    
-        
-        document.querySelector('p#weather').innerHTML = celciusText;
-    
-        document.querySelector('.weather-group').addEventListener('click', function (event) {
+            .then(response => response.json())
+            .then(data => {
+                const condition = data.weather[0].description;
+                const location = data.name;
+                const country = data.sys.country;
+                const temperature = data.main.temp;
 
-            const button = event.target.closest('button');
+                const celsiusText =
+                    `The weather is ${condition} in ${location}, ${country} and it's ${temperature.toFixed(1)}°C outside`;
 
-            if (!button) return;
+                const fahrText =
+                    `The weather is ${condition} in ${location}, ${country} and it's ${celciusToFahr(temperature).toFixed(1)}°F outside`;
 
-            if (button.id === 'celcius' && !isCelsius) {
-                document.querySelector('p#weather').innerHTML = celciusText;
-                isCelsius = true;
-            }
+                document.querySelector('#weather').innerHTML = celsiusText;
 
-            if (button.id === 'fahr' && isCelsius) {
-                document.querySelector('p#weather').innerHTML = fahrText;
-                isCelsius = false;
-            }
+                document.querySelector('.weather-group').addEventListener('change', event => {
+                    if (event.target.id === 'celsius') {
+                        document.querySelector('#weather').innerHTML = celsiusText;
+                        isCelsius = true;
+                    }
 
-        });
-
-    
-    
-        }).catch(error => {
-            document.querySelector('p#weather').innerHTML = 'Unable to get weather information.';
-
-        }) 
-        
-        
+                    if (event.target.id === 'fahr') {
+                        document.querySelector('#weather').innerHTML = fahrText;
+                        isCelsius = false;
+                    }
+                });
+            })
+            .catch(() => {
+                document.querySelector('#weather').innerHTML =
+                    'Unable to get weather information.';
+            });
     });
 }
+
 
 function timeHandler() {
     let localTime = new Date();
